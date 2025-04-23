@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>recyclopedia</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #e9f5e9;
+      color: #2d2d2d;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    .background-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1600&q=80');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.25;
+    }
+
+    header {
+      background: #2e7d32cc;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      background: #1b5e20;
+      padding: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .nav-tabs a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .nav-tabs a:hover,
+    .nav-tabs a.active {
+      background: #2e7d32;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 20px;
+      position: relative;
+    }
+
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.5s ease-in;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Section Contact */
+    #contact-form {
+      background: white;
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      margin-top: 20px;
+    }
+
+    #contact-form label {
+      display: block;
+      margin: 15px 0 5px;
+      font-weight: 600;
+    }
+
+    #contact-form input,
+    #contact-form textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    #contact-form button {
+      background: #2e7d32;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      margin-top: 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    #contact-form button:hover {
+      background: #1b5e20;
+    }
+
+    footer {
+      text-align: center;
+      background: #2e7d32cc;
+      color: white;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    /* Styles pour l'accueil */
+    .hero-section {
+      background: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .hero-section h2 {
+      color: #1b5e20;
+      margin-top: 0;
+    }
+
+    .eco-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .eco-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .eco-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .eco-card-img {
+      height: 150px;
+      background-color: #4caf50;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2.5rem;
+    }
+
+    .eco-card-content {
+      padding: 15px;
+    }
+
+    .eco-card h3 {
+      color: #1b5e20;
+      margin-top: 0;
+    }
+
+    .facts-section {
+      background: #e8f5e9;
+      padding: 25px;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+
+    .facts-section h2 {
+      color: #1b5e20;
+      text-align: center;
+    }
+
+    .eco-fact {
+      display: flex;
+      margin: 15px 0;
+      align-items: center;
+    }
+
+    .fact-icon {
+      font-size: 2rem;
+      margin-right: 15px;
+      color: #2e7d32;
+    }
+
+    .call-to-action {
+      background: #2e7d32;
+      color: white;
+      text-align: center;
+      padding: 30px;
+      border-radius: 8px;
+      margin-top: 30px;
+    }
+
+    .call-to-action button {
+      background: white;
+      color: #2e7d32;
+      border: none;
+      padding: 12px 25px;
+      margin-top: 15px;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .call-to-action button:hover {
+      background: #e8f5e9;
+    }
+
+    /* Styles pour les astuces écologiques */
+    .tips-section {
+      margin-top: 40px;
+    }
+
+    .tips-section h2 {
+      color: #1b5e20;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .tips-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .tip-card {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+      height: 100%;
+    }
+
+    .tip-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .tip-icon {
+      height: 100px;
+      background-color: #4caf50;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+    }
+
+    .tip-content {
+      padding: 15px;
+      display: flex;
+      flex-direction: column;
+      height: calc(100% - 100px);
+    }
+
+    .tip-title {
+      color: #1b5e20;
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    .tip-text {
+      flex-grow: 1;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .detailed-tips {
+      background: #f8f8f8;
+      padding: 25px;
+      border-radius: 8px;
+      margin-top: 40px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    .detailed-tips h3 {
+      color: #1b5e20;
+      border-bottom: 2px solid #4caf50;
+      padding-bottom: 10px;
+      margin-top: 0;
+    }
+
+    .detailed-tip {
+      margin-bottom: 30px;
+      border-left: 4px solid #4caf50;
+      padding-left: 15px;
+    }
+
+    .detailed-tip h4 {
+      color: #1b5e20;
+      margin-bottom: 10px;
+    }
+
+    .detailed-tip p {
+      line-height: 1.6;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 600px) {
+      .nav-tabs {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .eco-actions, .tips-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="background-image"></div>
+
+  <header>
+    <h1>🌿 recyclopedia 🌿</h1>
+    <p>Des gestes simples pour un monde plus vert</p>
+  </header>
+
+  <nav>
+    <ul class="nav-tabs">
+      <li><a href="#accueil" class="active" data-tab="accueil">Accueil</a></li>
+      <li><a href="#web" data-tab="web">Web</a></li>
+      <li><a href="#contact" data-tab="contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- Section Accueil -->
+    <div id="accueil" class="tab-content active">
+      <div class="hero-section">
+        <h2>Bienvenue sur Recyclopedia</h2>
+        <p>Découvrez comment contribuer à un avenir plus durable à travers des gestes simples et efficaces au quotidien.</p>
+      </div>
+      
+      <h2>Nos conseils écologiques</h2>
+      <div class="eco-actions">
+        <div class="eco-card">
+          <div class="eco-card-img">♻️</div>
+          <div class="eco-card-content">
+            <h3>Tri sélectif</h3>
+            <p>Apprenez à trier correctement vos déchets pour maximiser le recyclage et réduire votre impact environnemental.</p>
+          </div>
+        </div>
+        
+        <div class="eco-card">
+          <div class="eco-card-img">🌱</div>
+          <div class="eco-card-content">
+            <h3>Compostage</h3>
+            <p>Transformez vos déchets organiques en ressource précieuse pour vos plantes et votre jardin.</p>
+          </div>
+        </div>
+        
+        <div class="eco-card">
+          <div class="eco-card-img">💧</div>
+          <div class="eco-card-content">
+            <h3>Économie d'eau</h3>
+            <p>Adoptez des habitudes qui permettent de préserver cette ressource vitale au quotidien.</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Section des astuces écologiques -->
+      <div class="tips-section">
+        <h2>10 Astuces pour vivre plus écologique</h2>
+        
+        <div class="tips-grid">
+          <div class="tip-card">
+            <div class="tip-icon">🛒</div>
+            <div class="tip-content">
+              <h3 class="tip-title">Acheter responsable</h3>
+              <p class="tip-text">Privilégiez les produits locaux, bio et durables pour réduire votre impact environnemental.</p>
+            </div>
+          </div>
+          
+          <div class="tip-card">
+            <div class="tip-icon">🍶</div>
+            <div class="tip-content">
+              <h3 class="tip-title">Utiliser une gourde</h3>
+              <p class="tip-text">Évitez les bouteilles en plastique jetables en optant pour une gourde réutilisable.</p>
+            </div>
+          </div>
+          
+          <div class="tip-card">
+            <div class="tip-icon">🥕</div>
+            <div class="tip-content"> 
+              <h3 class="tip-title">Manger local et de saison</h3>
+              <p class="tip-text">Consommer des produits locaux réduit les émissions liées au transport et soutient l'économie locale.</p>
+            </div>
+          </div>
+          
+          <div class="tip-card">
+            <div class="tip-icon">♻️</div>
+            <div class="tip-content">
+              <h3 class="tip-title">Faire du compost</h3>
+              <p class="tip-text">Transformez vos déchets organiques en engrais naturel pour vos plantes et votre jardin.</p>
+            </div>
+          </div>
+          
+          <div class="tip-card">
+            <div class="tip-icon">🚌</div>
+            <div class="tip-content">
+              <h3 class="tip-title">Prendre les transports en commun</h3>
+              <p class="tip-text">Limiter l'usage de la voiture réduit votre empreinte carbone et la pollution atmosphérique.</p>
+            </div>
+          </div>
+          
+          <div class="tip-card">
+            <div class="tip-icon">💦</div>
+            <div class="tip-content">
+              <h3 class="tip-title">Réduire la consommation d'eau</h3>
+              <p class="tip-text">Fermez le robinet pendant que vous vous brossez les dents ou utilisez un pommeau de douche économique.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="detailed-tips">
+          <h3>Zoom sur nos conseils pour consommer plus responsable</h3>
+          
+          <div class="detailed-tip">
+            <h4>1. Éviter les aliments nocifs à l'environnement</h4>
+            <p>Certains modes de production provoquent un désastre écologique alors mieux vaut consommer le moins possible de ces aliments. C'est le cas de la viande et du saumon obtenus par l'élevage intensif des animaux, et de l'huile de palme responsable de la déforestation. Citons aussi ces poissons (par exemple le cabillaud ou le thon rouge) dont la surpêche menace la survie de l'espèce. Idem pour les fruits quand ils poussent à grand renfort de pesticides… N'hésitez pas à vous informer sur la provenance de ce que vous achetez !</p>
+          </div>
+          
+          <div class="detailed-tip">
+            <h4>2. Manger local et de saison</h4>
+            <p>Il est préconisé d'éviter les produits qui ont parcouru la moitié de la Terre avant d'arriver sur nos étals ou qui poussent en serre, hors-saison (les fraises en hiver !). Ceux-là affichent un bilan carbone catastrophique. Privilégiez les produits locaux et de saison. Cultivés selon des méthodes plus naturelles et distribués en circuit court, ils ont tout pour plaire.</p>
+          </div>
+          
+          <div class="detailed-tip">
+            <h4>3. Acheter durable</h4>
+            <p>Tournez le dos à la « fast fashion », cette industrie textile qui produit frénétiquement des vêtements de piètre qualité. Fabriqués dans des pays émergents et souvent dans de mauvaises conditions, ils nécessitent quantité d'eau et de produits chimiques. Préférez les textiles « made in France », qui visent la qualité et donc la durabilité. Objectif : avoir moins mais mieux.</p>
+          </div>
+          
+          <div class="detailed-tip">
+            <h4>4. Consommer bio</h4>
+            <p>Faire le choix du bio dans ses achats, c'est encourager des filières de production respectueuses de l'environnement (pas d'intrants chimiques) et des personnes qui travaillent dans ces filières (juste rémunération). Du coton, du café, des fruits, des légumes, etc., en achetant bio, vous consommez plus sain et plus éthique.</p>
+          </div>
+          
+          <div class="detailed-tip">
+            <h4>5. Passer aux cosmétiques solides</h4>
+            <p>Savon, shampoing, déodorant, dentifrice et autres produits de toilette sont de plus en plus accessibles sous forme solide. Un bon plan pour l'environnement car ces cosmétiques solides se passent de contenants en plastique. De plus, contrairement aux produits liquides, ils ne contiennent pas de conservateurs. Enfin, plus concentrés, ils sont plus économiques que leurs équivalents liquides.</p>
+          </div>
+          
+          <div class="detailed-tip">
+            <h4>6. Trouver des alternatives au plastique</h4>
+            <p>Le plastique a envahi nos vies depuis 50 ans. Issu du pétrole, sa production génère beaucoup de CO2 et il est trop peu recyclé. En se dégradant, il émet des microparticules nocives pour la santé. Vous avez donc tout intérêt à le bannir de votre quotidien (ustensiles, jouets, déco, …) en le remplaçant chaque fois que possible par des matériaux plus naturels, plus stables et moins toxiques : verre, bois, tissu, caoutchouc.</p>
+          </div>
+          
+          <div class="detailed-tip">
+            <h4>7. Acheter en vrac</h4>
+            <p>Le vrac limite les emballages plastiques et permet d'acheter la juste quantité. C'est une excellente façon de réduire ses déchets tout en évitant le gaspillage alimentaire.</p>
+          </div>
+          
+          <div class="detailed-tip">
+            <h4>8. Réparer au lieu de jeter</h4>
+            <p>Prolongez la vie de vos objets en les réparant ou en les donnant au lieu de les jeter. Informez-vous sur les repair cafés près de chez vous où des bénévoles vous aideront à réparer vos appareils.</p>
+          </div>
+          
+          <div class="detailed-tip">
+            <h4>9. Utiliser des produits ménagers naturels</h4>
+            <p>Le vinaigre blanc, le bicarbonate et le citron sont de super alternatives aux produits chimiques. Non seulement ils sont efficaces pour nettoyer votre maison, mais ils sont aussi meilleurs pour l'environnement et votre santé.</p>
+          </div>
+          
+          <div class="detailed-tip">
+            <h4>10. Planter des arbres ou des plantes</h4>
+            <p>Les plantes absorbent le CO₂ et embellissent votre environnement. Même si vous n'avez pas de jardin, un petit balcon ou rebord de fenêtre peut accueillir des plantes qui contribueront à la biodiversité locale.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="facts-section">
+        <h2>Le saviez-vous ?</h2>
+        
+        <div class="eco-fact">
+          <div class="fact-icon">📊</div>
+          <p>Chaque Français produit en moyenne 354 kg de déchets par an, dont près de 30% pourraient être compostés.</p>
+        </div>
+        
+        <div class="eco-fact">
+          <div class="fact-icon">🔋</div>
+          <p>Une pile jetée dans la nature peut polluer 1m³ de terre et 1000m³ d'eau pendant 50 ans.</p>
+        </div>
+        
+        <div class="eco-fact">
+          <div class="fact-icon">🌊</div>
+          <p>8 millions de tonnes de plastique finissent dans les océans chaque année, formant un 7ème continent de déchets.</p>
+        </div>
+      </div>
+      
+      <div class="call-to-action">
+        <h2>Rejoignez notre communauté</h2>
+        <p>Ensemble, nous pouvons faire la différence. Participez à nos ateliers et rencontrez d'autres personnes soucieuses de l'environnement.</p>
+        <button onclick="document.querySelector('[data-tab=\'contact\']').click()">S'inscrire à la newsletter</button>
+      </div>
+    </div>
+
+    <!-- Section Web -->
+    <div id="web" class="tab-content">
+      <h2>Mes projets écologiques</h2>
+      <ul>
+        <li>Site web sur le compostage urbain</li>
+        <li>Application de calcul d'empreinte carbone</li>
+        <li>Blog sur les énergies renouvelables</li>
+      </ul>
+    </div>
+
+    <!-- Section Contact -->
+    <div id="contact" class="tab-content">
+      <div id="contact-form">
+        <h2>Contactez-nous</h2>
+        <form>
+          <label for="name">Nom :</label>
+          <input type="text" id="name" required>
+          
+          <label for="email">Email :</label>
+          <input type="email" id="email" required>
+          
+          <label for="message">Message :</label>
+          <textarea id="message" rows="5" required></textarea>
+          
+          <button type="submit">Envoyer</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 recyclopedia – Agir ensemble pour la planète 🌎</p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('[data-tab]').forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        document.querySelectorAll('.nav-tabs a').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        const target = tab.getAttribute('data-tab');
+        tab.classList.add('active');
+        document.getElementById(target).classList.add('active');
+        
+        // Scroll doux vers le haut
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
